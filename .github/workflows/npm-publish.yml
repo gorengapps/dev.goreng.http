@@ -8,16 +8,23 @@ on:
     types: [created]
 
 jobs:
-  publish-npm:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Use Node.js & Configure Auth
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://packages.goreng.dev
           always-auth: true
-          token: ${{ secrets.NPM_TOKEN }}
-      - run: npm publish
+          token: ${{secrets.NPM_TOKEN}}
+
+      - name: Authenticate via npm config
+        run: npm config set //packages.goreng.dev/:_authToken "${{ secrets.NPM_TOKEN }}"
+
+      - name: Publish package
+        run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
