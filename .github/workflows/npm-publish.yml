@@ -17,5 +17,5 @@ jobs:
           node-version: 20
           registry-url: https://packages.goreng.dev
           always-auth: true
-          token: ${{ secrets.npm_token }}
+          token: ${{ secrets.NPM_TOKEN }}
       - run: npm publish
