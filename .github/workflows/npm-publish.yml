@@ -17,7 +17,5 @@ jobs:
           node-version: 20
           registry-url: https://packages.goreng.dev
       - name: Authenticate with private NPM package
-        run: echo "//https://pacakges.goreng.dev/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+        run: echo "//packages.goreng.dev/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
