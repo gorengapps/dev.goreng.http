@@ -20,11 +20,6 @@ jobs:
           registry-url: https://packages.goreng.dev
           always-auth: true
           token: ${{ secrets.NPM_TOKEN }}
-
-      - name: Authenticate with private registry
-        run: echo "//packages.goreng.dev/:_authToken=$NODE_AUTH_TOKEN" > $NPM_CONFIG_USERCONFIG
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           
       - name: Publish package
         run: npm publish --registry https://packages.goreng.dev
