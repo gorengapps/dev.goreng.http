@@ -27,6 +27,8 @@ namespace Http
         /// The request body object, which will be transformed using <see cref="transformer"/>.
         /// </summary>
         public object? body { get; private set; }
+        
+        public int timeout { get; private set; }
 
         /// <summary>
         /// The HTTP method to use (GET, POST, etc.).
@@ -67,6 +69,17 @@ namespace Http
         public Request SetHeader(string key, string value)
         {
             headers.Add(key, value);
+            return this;
+        }
+
+        /// <summary>
+        /// Applies a timeout to the request
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public Request SetTimeout(int timeout)
+        {
+            this.timeout = timeout;
             return this;
         }
 

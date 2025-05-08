@@ -40,14 +40,16 @@ namespace Http.Handlers
             byte[] response = _request.method switch
             {
                 HttpMethod.Get => await RequestHandler.CreateByteRequest(
-                    HttpMethod.Get,
-                    _request.url,
+                    method: HttpMethod.Get,
+                    url:_request.url,
+                    timeout: _request.timeout,
                     payload: null,
                     headers: _request.headers),
 
                 HttpMethod.Post => await RequestHandler.CreateByteRequest(
                     HttpMethod.Post,
                     _request.url,
+                    timeout: _request.timeout,
                     payload: _request.transformer?.Invoke(_request.body),
                     headers: _request.headers),
 

@@ -42,11 +42,13 @@ namespace Http.Handlers
                 HttpMethod.Get => await RequestHandler.CreateStringRequest(
                     _request.method,
                     _request.url,
+                    _request.timeout,
                     _request.headers),
 
                 HttpMethod.Post => await RequestHandler.CreatePayloadRequest(
                     HttpMethod.Post,
                     _request.url,
+                    _request.timeout,
                     _request.transformer?.Invoke(_request.body),
                     _request.headers),
 

@@ -35,6 +35,7 @@ namespace Http
         private static async Awaitable<DownloadHandler> CreateRequest(
             HttpMethod method,
             string url,
+            int? timeout = null,
             string? payload = null,
             Dictionary<string, string>? headers = null)
         {
@@ -59,6 +60,8 @@ namespace Http
             {
                 request.SetRequestHeader(header.Key, header.Value);
             }
+
+            request.timeout = timeout * 1000 ?? 30 * 1000;
             
             // Send the request and await completion.
             await request.SendWebRequest();
@@ -79,6 +82,7 @@ namespace Http
         /// </summary>
         /// <param name="method">The HTTP method to use.</param>
         /// <param name="url">The target URL.</param>
+        /// <param name="timeout">The timeout of the request</param>
         /// <param name="payload">Optional request body.</param>
         /// <param name="headers">Optional additional headers.</param>
         /// <returns>A byte array containing the raw response data.</returns>
@@ -86,10 +90,11 @@ namespace Http
         internal static async Awaitable<byte[]> CreateByteRequest(
             HttpMethod method,
             string url,
+            int? timeout,
             string? payload,
             Dictionary<string, string>? headers = null)
         {
-            var handler = await CreateRequest(method, url, payload, headers);
+            var handler = await CreateRequest(method, url, timeout, payload, headers);
             return handler.data;
         }
 
@@ -98,15 +103,17 @@ namespace Http
         /// </summary>
         /// <param name="method">The HTTP method to use.</param>
         /// <param name="url">The target URL.</param>
+        /// <param name="timeout">The timeout of the request</param>
         /// <param name="headers">Optional additional headers.</param>
         /// <returns>The response body as a string.</returns>
         /// <exception cref="HttpRequestException">On request failure.</exception>
         internal static async Awaitable<string> CreateStringRequest(
             HttpMethod method,
             string url,
+            int? timeout,
             Dictionary<string, string>? headers = null)
         {
-            var handler = await CreateRequest(method, url, null, headers);
+            var handler = await CreateRequest(method, url, timeout, null, headers);
             return handler.text;
         }
 
@@ -115,6 +122,7 @@ namespace Http
         /// </summary>
         /// <param name="method">The HTTP method to use.</param>
         /// <param name="url">The target URL.</param>
+        /// <param name="timeout">The timeout of the request</param>
         /// <param name="payload">The request body to send.</param>
         /// <param name="headers">Optional additional headers.</param>
         /// <returns>The response body as a string.</returns>
@@ -122,10 +130,11 @@ namespace Http
         internal static async Awaitable<string> CreatePayloadRequest(
             HttpMethod method,
             string url,
+            int? timeout,
             string? payload,
             Dictionary<string, string>? headers = null)
         {
-            var handler = await CreateRequest(method, url, payload, headers);
+            var handler = await CreateRequest(method, url, timeout, payload, headers);
             return handler.text;
         }
     }
