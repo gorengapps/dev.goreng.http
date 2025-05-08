@@ -1,7 +1,8 @@
 ﻿#nullable enable
 
 using System;
-using System.Threading.Tasks;
+using System.Net.Http;
+using UnityEngine;
 
 namespace Http.Handlers
 {
@@ -34,19 +35,21 @@ namespace Http.Handlers
         /// <exception cref="InvalidOperationException">
         /// Thrown if the HTTP method on the request is not supported by this handler.
         /// </exception>
-        public async Task<ByteResponse> Send()
+        public async Awaitable<ByteResponse> Send()
         {
             byte[] response = _request.method switch
             {
                 HttpMethod.Get => await RequestHandler.CreateByteRequest(
-                    HttpMethod.Get,
-                    _request.url,
+                    method: HttpMethod.Get,
+                    url:_request.url,
+                    timeout: _request.timeout,
                     payload: null,
                     headers: _request.headers),
 
                 HttpMethod.Post => await RequestHandler.CreateByteRequest(
                     HttpMethod.Post,
                     _request.url,
+                    timeout: _request.timeout,
                     payload: _request.transformer?.Invoke(_request.body),
                     headers: _request.headers),
 

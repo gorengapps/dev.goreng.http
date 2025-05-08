@@ -1,5 +1,5 @@
 {
-    "name": "NewAssembly",
+    "name": "dev.goreng.http",
     "rootNamespace": "Http",
     "references": [],
     "includePlatforms": [],

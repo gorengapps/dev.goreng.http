@@ -1,9 +1,8 @@
 ﻿#nullable enable
-using System;
+
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -33,9 +32,10 @@ namespace Http
         /// <exception cref="HttpRequestException">
         /// Thrown if the request results in a connection error, protocol error, or data processing error.
         /// </exception>
-        private static async Task<DownloadHandler> CreateRequest(
+        private static async Awaitable<DownloadHandler> CreateRequest(
             HttpMethod method,
             string url,
+            int? timeout = null,
             string? payload = null,
             Dictionary<string, string>? headers = null)
         {
@@ -51,6 +51,7 @@ namespace Http
 
             // Merge default headers with any per-request headers.
             var appliedHeaders = headers ?? new Dictionary<string, string>();
+            
             foreach (var header in defaultHeaders)
             {
                 request.SetRequestHeader(header.Key, header.Value);
@@ -60,9 +61,11 @@ namespace Http
                 request.SetRequestHeader(header.Key, header.Value);
             }
 
+            request.timeout = timeout * 1000 ?? 30 * 1000;
+            
             // Send the request and await completion.
             await request.SendWebRequest();
-
+            
             return request.result switch
             {
                 UnityWebRequest.Result.Success => request.downloadHandler,
@@ -79,17 +82,19 @@ namespace Http
         /// </summary>
         /// <param name="method">The HTTP method to use.</param>
         /// <param name="url">The target URL.</param>
+        /// <param name="timeout">The timeout of the request</param>
         /// <param name="payload">Optional request body.</param>
         /// <param name="headers">Optional additional headers.</param>
         /// <returns>A byte array containing the raw response data.</returns>
         /// <exception cref="HttpRequestException">On request failure.</exception>
-        internal static async Task<byte[]> CreateByteRequest(
+        internal static async Awaitable<byte[]> CreateByteRequest(
             HttpMethod method,
             string url,
+            int? timeout,
             string? payload,
             Dictionary<string, string>? headers = null)
         {
-            var handler = await CreateRequest(method, url, payload, headers);
+            var handler = await CreateRequest(method, url, timeout, payload, headers);
             return handler.data;
         }
 
@@ -98,15 +103,17 @@ namespace Http
         /// </summary>
         /// <param name="method">The HTTP method to use.</param>
         /// <param name="url">The target URL.</param>
+        /// <param name="timeout">The timeout of the request</param>
         /// <param name="headers">Optional additional headers.</param>
         /// <returns>The response body as a string.</returns>
         /// <exception cref="HttpRequestException">On request failure.</exception>
-        internal static async Task<string> CreateStringRequest(
+        internal static async Awaitable<string> CreateStringRequest(
             HttpMethod method,
             string url,
+            int? timeout,
             Dictionary<string, string>? headers = null)
         {
-            var handler = await CreateRequest(method, url, null, headers);
+            var handler = await CreateRequest(method, url, timeout, null, headers);
             return handler.text;
         }
 
@@ -115,17 +122,19 @@ namespace Http
         /// </summary>
         /// <param name="method">The HTTP method to use.</param>
         /// <param name="url">The target URL.</param>
+        /// <param name="timeout">The timeout of the request</param>
         /// <param name="payload">The request body to send.</param>
         /// <param name="headers">Optional additional headers.</param>
         /// <returns>The response body as a string.</returns>
         /// <exception cref="HttpRequestException">On request failure.</exception>
-        internal static async Task<string> CreatePayloadRequest(
+        internal static async Awaitable<string> CreatePayloadRequest(
             HttpMethod method,
             string url,
+            int? timeout,
             string? payload,
             Dictionary<string, string>? headers = null)
         {
-            var handler = await CreateRequest(method, url, payload, headers);
+            var handler = await CreateRequest(method, url, timeout, payload, headers);
             return handler.text;
         }
     }
