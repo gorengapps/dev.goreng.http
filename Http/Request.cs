@@ -2,8 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Http.Handlers;
+using UnityEngine;
 
 namespace Http
 {
@@ -114,7 +114,7 @@ namespace Http
         /// Sends the request asynchronously, expecting a string response.
         /// </summary>
         /// <returns>A task that completes with the <see cref="StringResponse"/>.</returns>
-        public async Task<StringResponse> Send()
+        public async Awaitable<StringResponse> Send()
         {
             return await SetStringOutput()
                 .Send();
