@@ -1,6 +1,6 @@
 {
   "name": "dev.goreng.http",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "displayName": "Http Engine",
   "description": "A simple wrapper around UnityWebRequest",
   "unity": "6000.0",
