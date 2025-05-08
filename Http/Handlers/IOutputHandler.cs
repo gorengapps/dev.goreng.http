@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Http.Handlers
 {
@@ -12,6 +13,6 @@ namespace Http.Handlers
         /// Sends the request and returns the specific type
         /// </summary>
         /// <returns></returns>
-        public Task<T> Send();
+        public Awaitable<T> Send();
     }
 }

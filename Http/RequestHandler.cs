@@ -33,7 +33,7 @@ namespace Http
         /// <exception cref="HttpRequestException">
         /// Thrown if the request results in a connection error, protocol error, or data processing error.
         /// </exception>
-        private static async Task<DownloadHandler> CreateRequest(
+        private static async Awaitable<DownloadHandler> CreateRequest(
             HttpMethod method,
             string url,
             string? payload = null,
@@ -51,6 +51,7 @@ namespace Http
 
             // Merge default headers with any per-request headers.
             var appliedHeaders = headers ?? new Dictionary<string, string>();
+            
             foreach (var header in defaultHeaders)
             {
                 request.SetRequestHeader(header.Key, header.Value);
@@ -59,10 +60,10 @@ namespace Http
             {
                 request.SetRequestHeader(header.Key, header.Value);
             }
-
+            
             // Send the request and await completion.
             await request.SendWebRequest();
-
+            
             return request.result switch
             {
                 UnityWebRequest.Result.Success => request.downloadHandler,
@@ -83,7 +84,7 @@ namespace Http
         /// <param name="headers">Optional additional headers.</param>
         /// <returns>A byte array containing the raw response data.</returns>
         /// <exception cref="HttpRequestException">On request failure.</exception>
-        internal static async Task<byte[]> CreateByteRequest(
+        internal static async Awaitable<byte[]> CreateByteRequest(
             HttpMethod method,
             string url,
             string? payload,
@@ -101,7 +102,7 @@ namespace Http
         /// <param name="headers">Optional additional headers.</param>
         /// <returns>The response body as a string.</returns>
         /// <exception cref="HttpRequestException">On request failure.</exception>
-        internal static async Task<string> CreateStringRequest(
+        internal static async Awaitable<string> CreateStringRequest(
             HttpMethod method,
             string url,
             Dictionary<string, string>? headers = null)
@@ -119,7 +120,7 @@ namespace Http
         /// <param name="headers">Optional additional headers.</param>
         /// <returns>The response body as a string.</returns>
         /// <exception cref="HttpRequestException">On request failure.</exception>
-        internal static async Task<string> CreatePayloadRequest(
+        internal static async Awaitable<string> CreatePayloadRequest(
             HttpMethod method,
             string url,
             string? payload,

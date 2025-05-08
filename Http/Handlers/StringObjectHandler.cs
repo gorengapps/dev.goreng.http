@@ -1,7 +1,9 @@
 ﻿#nullable enable
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Http.Handlers
 {
@@ -34,7 +36,7 @@ namespace Http.Handlers
         /// <exception cref="InvalidOperationException">
         /// Thrown if the HTTP method on the request is not supported by this handler.
         /// </exception>
-        public async Task<StringResponse> Send()
+        public async Awaitable<StringResponse> Send()
         {
             string response = _request.method switch
             {

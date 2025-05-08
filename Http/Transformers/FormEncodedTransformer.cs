@@ -25,7 +25,7 @@ namespace Http.Transformers
         /// <exception cref="ArgumentNullException">
         /// Thrown if <paramref name="obj"/> is <c>null</c>.
         /// </exception>
-        public static string Transform(object obj)
+        public static string? Transform(object? obj)
         {
             if (obj == null)
                 throw new ArgumentNullException(nameof(obj));
