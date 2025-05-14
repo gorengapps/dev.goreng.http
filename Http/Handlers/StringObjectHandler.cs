@@ -2,6 +2,7 @@
 
 using System;
 using System.Net.Http;
+using System.Threading;
 using UnityEngine;
 
 namespace Http.Handlers
@@ -43,14 +44,17 @@ namespace Http.Handlers
                     _request.method,
                     _request.url,
                     _request.timeout,
-                    _request.headers),
+                    _request.headers,
+                    cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
 
                 HttpMethod.Post => await RequestHandler.CreatePayloadRequest(
                     HttpMethod.Post,
                     _request.url,
                     _request.timeout,
                     _request.transformer?.Invoke(_request.body),
-                    _request.headers),
+                    _request.headers,
+                    _request.errorHandler,
+                    cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
 
                 _ => throw new InvalidOperationException("Invalid HTTP method.")
             };
