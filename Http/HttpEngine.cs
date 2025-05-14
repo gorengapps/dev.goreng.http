@@ -23,16 +23,16 @@ namespace Http
         /// </summary>
         /// <param name="key">The name of the header.</param>
         /// <param name="value">The value of the header.</param>
-        public void AddHeader(string key, string value)
+        public static void AddHeader(string key, string value)
         {
-            RequestHandler.defaultHeaders.Add(key, value);
+            RequestHandler.defaultHeaders[key] = value;    
         }
         
         /// <summary>
         /// Removes a previously added default header so it will not be sent in future requests.
         /// </summary>
         /// <param name="key">The name of the header to remove.</param>
-        public void RemoveHeader(string key)
+        public static void RemoveHeader(string key)
         {
             RequestHandler.defaultHeaders.Remove(key);
         }

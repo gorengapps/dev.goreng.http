@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Http.Handlers;
 using UnityEngine;
 
@@ -22,6 +23,8 @@ namespace Http
         /// Optional function to transform a response object into a string payload for the request.
         /// </summary>
         public Func<object?, string?>? transformer { get; private set; }
+        
+        public IHttpErrorHandler? errorHandler { get; private set; }
 
         /// <summary>
         /// The request body object, which will be transformed using <see cref="transformer"/>.
@@ -29,6 +32,8 @@ namespace Http
         public object? body { get; private set; }
         
         public int timeout { get; private set; }
+        
+        public CancellationTokenSource? cancellationToken { get; private set; }
 
         /// <summary>
         /// The HTTP method to use (GET, POST, etc.).
@@ -60,6 +65,12 @@ namespace Http
             return this;
         }
 
+        public Request SetErrorHandler(IHttpErrorHandler errorHandler)
+        {
+            this.errorHandler = errorHandler;
+            return this;
+        }
+
         /// <summary>
         /// Adds a header to the request.
         /// </summary>
@@ -80,6 +91,12 @@ namespace Http
         public Request SetTimeout(int timeout)
         {
             this.timeout = timeout;
+            return this;
+        }
+
+        public Request SetCancellationToken(CancellationTokenSource cancellationToken)
+        {
+            this.cancellationToken = cancellationToken;
             return this;
         }
 
