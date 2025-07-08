@@ -32,7 +32,7 @@ namespace Http.Handlers
                         _request.GetAllHeaders(),
                         _request.errorHandler,
                         _request.progressCallback,
-                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                        cancellationToken: _request.cancellationToken ?? CancellationToken.None),
 
                     HttpMethod.Post => await RequestHandler.CreatePayloadRequestWithProgress(
                         HttpMethod.Post,
@@ -42,7 +42,7 @@ namespace Http.Handlers
                         _request.GetAllHeaders(),
                         _request.errorHandler,
                         _request.progressCallback,
-                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                        cancellationToken: _request.cancellationToken ?? CancellationToken.None),
 
                     _ => throw new InvalidOperationException("Invalid HTTP method.")
                 };
@@ -57,7 +57,7 @@ namespace Http.Handlers
                         _request.timeout,
                         _request.GetAllHeaders(),
                         _request.errorHandler,
-                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                        cancellationToken: _request.cancellationToken ?? CancellationToken.None),
 
                     HttpMethod.Post => await RequestHandler.CreatePayloadRequest(
                         HttpMethod.Post,
@@ -66,7 +66,7 @@ namespace Http.Handlers
                         _request.transformer?.Invoke(_request.body),
                         _request.GetAllHeaders(),
                         _request.errorHandler,
-                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                        cancellationToken: _request.cancellationToken ?? CancellationToken.None),
 
                     _ => throw new InvalidOperationException("Invalid HTTP method.")
                 };

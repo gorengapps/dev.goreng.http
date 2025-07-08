@@ -33,7 +33,7 @@ namespace Http.Handlers
                         headers: _request.GetAllHeaders(),
                         errorHandler: _request.errorHandler,
                         progressCallback: _request.progressCallback,
-                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                        cancellationToken: _request.cancellationToken ?? CancellationToken.None),
 
                     HttpMethod.Post => await RequestHandler.CreateByteRequestWithProgress(
                         HttpMethod.Post,
@@ -43,7 +43,7 @@ namespace Http.Handlers
                         headers: _request.GetAllHeaders(),
                         errorHandler: _request.errorHandler,
                         progressCallback: _request.progressCallback,
-                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                        cancellationToken: _request.cancellationToken ?? CancellationToken.None),
 
                     _ => throw new InvalidOperationException("Invalid HTTP method.")
                 };
@@ -59,7 +59,7 @@ namespace Http.Handlers
                         payload: null,
                         headers: _request.GetAllHeaders(),
                         errorHandler: _request.errorHandler,
-                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                        cancellationToken: _request.cancellationToken ?? CancellationToken.None),
 
                     HttpMethod.Post => await RequestHandler.CreateByteRequest(
                         HttpMethod.Post,
@@ -68,7 +68,7 @@ namespace Http.Handlers
                         payload: _request.transformer?.Invoke(_request.body),
                         headers: _request.GetAllHeaders(),
                         errorHandler: _request.errorHandler,
-                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                        cancellationToken: _request.cancellationToken ?? CancellationToken.None),
 
                     _ => throw new InvalidOperationException("Invalid HTTP method.")
                 };

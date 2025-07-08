@@ -19,7 +19,7 @@ namespace Http
         public IHttpErrorHandler? errorHandler { get; private set; }
         public object? body { get; private set; }
         public int timeout { get; private set; }
-        public CancellationTokenSource? cancellationToken { get; private set; }
+        public CancellationToken? cancellationToken { get; private set; }
         public HttpMethod method { get; private set; }
         public ProgressCallback? progressCallback { get; private set; }
         public Dictionary<string, string> headers { get; } = new Dictionary<string, string>();
@@ -81,7 +81,7 @@ namespace Http
             return this;
         }
 
-        public Request SetCancellationToken(CancellationTokenSource? cancellationToken)
+        public Request SetCancellationToken(CancellationToken? cancellationToken)
         {
             if (cancellationToken == null)
             {

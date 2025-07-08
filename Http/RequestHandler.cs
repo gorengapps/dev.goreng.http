@@ -142,13 +142,15 @@ namespace Http
                 {
                     while (!op.isDone && !cancellationToken.IsCancellationRequested)
                     {
-                        var totalBytes = request.downloadHandler.expectedContentLength >= 0 
-                            ? (ulong)request.downloadHandler.expectedContentLength 
-                            : 0ul;
-                        var downloadedBytes = (ulong)request.downloadedBytes;
+                        if(!long.TryParse(request.GetResponseHeader("Content-Length"), out var length))
+                        {
+                            continue;
+                        }
+                        
+                        var totalBytes = length >= 0 ? (ulong)length : 0ul;
+                        var downloadedBytes = request.downloadedBytes;
                         
                         progressCallback(new DownloadProgress(downloadedBytes, totalBytes));
-                        
                         await Awaitable.NextFrameAsync(cancellationToken);
                     }
                 }
