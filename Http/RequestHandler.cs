@@ -10,8 +10,23 @@ using UnityEngine.Networking;
 
 namespace Http
 {
+    /// <summary>
+    /// Internal class responsible for handling HTTP requests using UnityWebRequest.
+    /// Provides methods for both standard requests and progress-aware requests.
+    /// </summary>
     internal static class RequestHandler
     {
+        /// <summary>
+        /// Creates and sends an HTTP request without progress tracking.
+        /// </summary>
+        /// <param name="method">The HTTP method to use.</param>
+        /// <param name="url">The target URL.</param>
+        /// <param name="timeout">Optional timeout in seconds.</param>
+        /// <param name="payload">Optional request body payload.</param>
+        /// <param name="headers">Optional headers to include.</param>
+        /// <param name="errorHandler">Optional custom error handler.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>The download handler containing the response data.</returns>
         private static async Awaitable<DownloadHandler> CreateRequest(
             HttpMethod method,
             string url,
@@ -64,6 +79,17 @@ namespace Http
             };
         }
         
+        /// <summary>
+        /// Creates and sends an HTTP request that returns binary data without progress tracking.
+        /// </summary>
+        /// <param name="method">The HTTP method to use.</param>
+        /// <param name="url">The target URL.</param>
+        /// <param name="timeout">Optional timeout in seconds.</param>
+        /// <param name="payload">Optional request body payload.</param>
+        /// <param name="headers">Optional headers to include.</param>
+        /// <param name="errorHandler">Optional custom error handler.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>The response data as a byte array.</returns>
         internal static async Awaitable<byte[]> CreateByteRequest(
             HttpMethod method,
             string url,
@@ -77,6 +103,16 @@ namespace Http
             return handler.data;
         }
 
+        /// <summary>
+        /// Creates and sends an HTTP GET request that returns string data without progress tracking.
+        /// </summary>
+        /// <param name="method">The HTTP method to use.</param>
+        /// <param name="url">The target URL.</param>
+        /// <param name="timeout">Optional timeout in seconds.</param>
+        /// <param name="headers">Optional headers to include.</param>
+        /// <param name="errorHandler">Optional custom error handler.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>The response data as a string.</returns>
         internal static async Awaitable<string> CreateStringRequest(
             HttpMethod method,
             string url,
@@ -89,6 +125,17 @@ namespace Http
             return handler.text;
         }
 
+        /// <summary>
+        /// Creates and sends an HTTP request with a payload that returns string data without progress tracking.
+        /// </summary>
+        /// <param name="method">The HTTP method to use.</param>
+        /// <param name="url">The target URL.</param>
+        /// <param name="timeout">Optional timeout in seconds.</param>
+        /// <param name="payload">The request body payload.</param>
+        /// <param name="headers">Optional headers to include.</param>
+        /// <param name="errorHandler">Optional custom error handler.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>The response data as a string.</returns>
         internal static async Awaitable<string> CreatePayloadRequest(
             HttpMethod method,
             string url,
@@ -102,6 +149,18 @@ namespace Http
             return handler.text;
         }
 
+        /// <summary>
+        /// Creates and sends an HTTP request with progress tracking capabilities.
+        /// </summary>
+        /// <param name="method">The HTTP method to use.</param>
+        /// <param name="url">The target URL.</param>
+        /// <param name="timeout">Optional timeout in seconds.</param>
+        /// <param name="payload">Optional request body payload.</param>
+        /// <param name="headers">Optional headers to include.</param>
+        /// <param name="errorHandler">Optional custom error handler.</param>
+        /// <param name="progressCallback">Optional callback for progress updates.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>The download handler containing the response data.</returns>
         private static async Awaitable<DownloadHandler> CreateRequestWithProgress(
             HttpMethod method,
             string url,
@@ -174,6 +233,18 @@ namespace Http
             };
         }
 
+        /// <summary>
+        /// Creates and sends an HTTP request that returns binary data with progress tracking.
+        /// </summary>
+        /// <param name="method">The HTTP method to use.</param>
+        /// <param name="url">The target URL.</param>
+        /// <param name="timeout">Optional timeout in seconds.</param>
+        /// <param name="payload">Optional request body payload.</param>
+        /// <param name="headers">Optional headers to include.</param>
+        /// <param name="errorHandler">Optional custom error handler.</param>
+        /// <param name="progressCallback">Optional callback for progress updates.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>The response data as a byte array.</returns>
         internal static async Awaitable<byte[]> CreateByteRequestWithProgress(
             HttpMethod method,
             string url,
@@ -188,6 +259,17 @@ namespace Http
             return handler.data;
         }
 
+        /// <summary>
+        /// Creates and sends an HTTP GET request that returns string data with progress tracking.
+        /// </summary>
+        /// <param name="method">The HTTP method to use.</param>
+        /// <param name="url">The target URL.</param>
+        /// <param name="timeout">Optional timeout in seconds.</param>
+        /// <param name="headers">Optional headers to include.</param>
+        /// <param name="errorHandler">Optional custom error handler.</param>
+        /// <param name="progressCallback">Optional callback for progress updates.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>The response data as a string.</returns>
         internal static async Awaitable<string> CreateStringRequestWithProgress(
             HttpMethod method,
             string url,
@@ -201,6 +283,18 @@ namespace Http
             return handler.text;
         }
 
+        /// <summary>
+        /// Creates and sends an HTTP request with a payload that returns string data with progress tracking.
+        /// </summary>
+        /// <param name="method">The HTTP method to use.</param>
+        /// <param name="url">The target URL.</param>
+        /// <param name="timeout">Optional timeout in seconds.</param>
+        /// <param name="payload">The request body payload.</param>
+        /// <param name="headers">Optional headers to include.</param>
+        /// <param name="errorHandler">Optional custom error handler.</param>
+        /// <param name="progressCallback">Optional callback for progress updates.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
+        /// <returns>The response data as a string.</returns>
         internal static async Awaitable<string> CreatePayloadRequestWithProgress(
             HttpMethod method,
             string url,

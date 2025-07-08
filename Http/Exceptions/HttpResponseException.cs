@@ -32,8 +32,8 @@ namespace Http
         public HttpResponseException(long statusCode, string? content)
             : base($"Request failed with status code {statusCode}. Response: {content}")
         {
-            statusCode = statusCode;
-            content = content;
+            this.statusCode = statusCode;
+            this.content = content;
         }
     }
 }

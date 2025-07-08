@@ -7,15 +7,28 @@ using UnityEngine;
 
 namespace Http.Handlers
 {
+    /// <summary>
+    /// Output handler that processes HTTP requests and returns string data as a <see cref="StringResponse"/>.
+    /// Supports both standard requests and progress-tracked requests.
+    /// </summary>
     public class StringObjectHandler : IOutputHandler<StringResponse>
     {
         private readonly Request _request;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringObjectHandler"/> class.
+        /// </summary>
+        /// <param name="request">The request to process.</param>
         public StringObjectHandler(Request request)
         {
             _request = request;
         }
 
+        /// <summary>
+        /// Sends the HTTP request and returns the response as string data.
+        /// Automatically uses progress tracking if a progress callback is configured.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation, containing the string response.</returns>
         public async Awaitable<StringResponse> Send()
         {
             string response;
