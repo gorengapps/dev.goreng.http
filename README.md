@@ -24,15 +24,20 @@ var response = await httpEngine.Make("https://api.example.com/data")
 ### Download with Progress Tracking
 ```csharp
 var httpEngine = new HttpEngine();
+
+// Progress tracking works with any output type
 var request = httpEngine.Make("https://example.com/largefile.zip")
     .SetMethod(HttpMethod.Get)
     .SetProgressCallback(OnProgressUpdate);
 
-var response = await request.SetProgressByteOutput().Send();
+// Use with byte output
+var byteResponse = await request.SetByteOutput().Send();
 
-// Access file size and progress information
-Debug.Log($"File size: {response.TotalBytes} bytes");
-Debug.Log($"Downloaded: {response.DownloadedBytes} bytes");
+// Or use with string output
+var stringResponse = await request.SetStringOutput().Send();
+
+// Or use with default string output
+var defaultResponse = await request.Send();
 
 private void OnProgressUpdate(DownloadProgress progress)
 {
@@ -47,4 +52,3 @@ private void OnProgressUpdate(DownloadProgress progress)
 ### Available Response Types
 - `StringResponse`: For text-based responses
 - `ByteResponse`: For binary data
-- `ProgressByteResponse`: For binary data with progress and size information

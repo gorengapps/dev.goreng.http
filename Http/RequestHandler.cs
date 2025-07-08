@@ -198,5 +198,19 @@ namespace Http
             var handler = await CreateRequestWithProgress(method, url, timeout, null, headers, errorHandler, progressCallback, cancellationToken);
             return handler.text;
         }
+
+        internal static async Awaitable<string> CreatePayloadRequestWithProgress(
+            HttpMethod method,
+            string url,
+            int? timeout,
+            string? payload,
+            Dictionary<string, string>? headers = null,
+            IHttpErrorHandler? errorHandler = null,
+            ProgressCallback? progressCallback = null,
+            CancellationToken cancellationToken = default)
+        {
+            var handler = await CreateRequestWithProgress(method, url, timeout, payload, headers, errorHandler, progressCallback, cancellationToken);
+            return handler.text;
+        }
     }
 }

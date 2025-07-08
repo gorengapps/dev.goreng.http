@@ -18,27 +18,59 @@ namespace Http.Handlers
 
         public async Awaitable<StringResponse> Send()
         {
-            string response = _request.method switch
+            string response;
+            
+            // Use progress-aware methods if progress callback is set
+            if (_request.progressCallback != null)
             {
-                HttpMethod.Get => await RequestHandler.CreateStringRequest(
-                    _request.method,
-                    _request.url,
-                    _request.timeout,
-                    _request.GetAllHeaders(),
-                    _request.errorHandler,
-                    cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                response = _request.method switch
+                {
+                    HttpMethod.Get => await RequestHandler.CreateStringRequestWithProgress(
+                        _request.method,
+                        _request.url,
+                        _request.timeout,
+                        _request.GetAllHeaders(),
+                        _request.errorHandler,
+                        _request.progressCallback,
+                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
 
-                HttpMethod.Post => await RequestHandler.CreatePayloadRequest(
-                    HttpMethod.Post,
-                    _request.url,
-                    _request.timeout,
-                    _request.transformer?.Invoke(_request.body),
-                    _request.GetAllHeaders(),
-                    _request.errorHandler,
-                    cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+                    HttpMethod.Post => await RequestHandler.CreatePayloadRequestWithProgress(
+                        HttpMethod.Post,
+                        _request.url,
+                        _request.timeout,
+                        _request.transformer?.Invoke(_request.body),
+                        _request.GetAllHeaders(),
+                        _request.errorHandler,
+                        _request.progressCallback,
+                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
 
-                _ => throw new InvalidOperationException("Invalid HTTP method.")
-            };
+                    _ => throw new InvalidOperationException("Invalid HTTP method.")
+                };
+            }
+            else
+            {
+                response = _request.method switch
+                {
+                    HttpMethod.Get => await RequestHandler.CreateStringRequest(
+                        _request.method,
+                        _request.url,
+                        _request.timeout,
+                        _request.GetAllHeaders(),
+                        _request.errorHandler,
+                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+
+                    HttpMethod.Post => await RequestHandler.CreatePayloadRequest(
+                        HttpMethod.Post,
+                        _request.url,
+                        _request.timeout,
+                        _request.transformer?.Invoke(_request.body),
+                        _request.GetAllHeaders(),
+                        _request.errorHandler,
+                        cancellationToken: _request.cancellationToken?.Token ?? CancellationToken.None),
+
+                    _ => throw new InvalidOperationException("Invalid HTTP method.")
+                };
+            }
 
             return new StringResponse(response);
         }

@@ -114,11 +114,6 @@ namespace Http
         {
             return new OutputByteHandler(this);
         }
-        
-        public IOutputHandler<ProgressByteResponse> SetProgressByteOutput()
-        {
-            return new ProgressByteHandler(this);
-        }
 
         public IOutputHandler<StringResponse> SetStringOutput()
         {
