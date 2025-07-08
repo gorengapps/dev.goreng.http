@@ -21,6 +21,7 @@ namespace Http
         public int timeout { get; private set; }
         public CancellationTokenSource? cancellationToken { get; private set; }
         public HttpMethod method { get; private set; }
+        public ProgressCallback? progressCallback { get; private set; }
         public Dictionary<string, string> headers { get; } = new Dictionary<string, string>();
         
         private readonly Dictionary<string, string>? _engineHeaders;
@@ -103,9 +104,20 @@ namespace Http
             return this;
         }
 
+        public Request SetProgressCallback(ProgressCallback progressCallback)
+        {
+            this.progressCallback = progressCallback;
+            return this;
+        }
+
         public IOutputHandler<ByteResponse> SetByteOutput()
         {
             return new OutputByteHandler(this);
+        }
+        
+        public IOutputHandler<ProgressByteResponse> SetProgressByteOutput()
+        {
+            return new ProgressByteHandler(this);
         }
 
         public IOutputHandler<StringResponse> SetStringOutput()
